@@ -16,19 +16,19 @@ const components: { title: string; href: string; description: string }[] = [
 		title: "Teachers List",
 		href: "/teachers/teacher-list",
 		description:
-			"A modal dialog that interrupts the user with important content and expects a response.",
+			"Discover the dedicated educators who make our institution exceptional.",
 	},
 	{
 		title: "Resource Management",
 		href: "/resources/resource-management",
 		description:
-			"For sighted users to preview content available behind a link.",
+			"Navigate through our comprehensive resource management tools and information.",
 	},
 	{
 		title: "Coach Details",
 		href: "/teachers/coach-details",
 		description:
-			"Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+			"Discover the profiles of our dedicated and experienced coaching staff",
 	},
 	// {
 	// 	title: "Coach Teacher Interactions",
@@ -38,8 +38,7 @@ const components: { title: string; href: string; description: string }[] = [
 	{
 		title: "Student Progress",
 		href: "/teachers/student-progress",
-		description:
-			"A set of layered sections of content—known as tab panels—that are displayed one at a time.",
+		description: "Click here to monitor the academic growth of our students.",
 	},
 ];
 

@@ -5,7 +5,7 @@ export default function DefaultLayout({
 	children,
 }: { children: React.ReactNode }) {
 	return (
-		<div>
+		<div className="">
 			<Dashboardnav />
 			<main>{children}</main>
 		</div>

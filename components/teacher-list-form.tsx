@@ -17,30 +17,34 @@ import { Input } from "@/components/ui/input";
 import TeacherListFormButton from "./form-button";
 import { useToast } from "@/components/ui/use-toast";
 import Dropzone from "react-dropzone";
+import { useState } from "react";
 
 export function TeacherListForm() {
+	const [image, setImage] = useState();
 	const { toast } = useToast();
+
 	const form = useForm<TeacherList>({
 		resolver: zodResolver(teacherListSchema),
 		defaultValues: {
 			name: "",
-			image: "",
 			activityScore: 0,
 			studentInteractionRating: 0,
 			subjectsTaught: [],
 		},
 	});
 
+	const onImage = (data) => {
+		setImage(data);
+	};
+
 	const clientAction: SubmitHandler<TeacherList> = async (data) => {
-		console.log(data.image);
 		const newTeacherList = {
 			name: data.name,
-			image: data.image,
+			image: image,
 			activityScore: data.activityScore,
 			studentInteractionRating: data.studentInteractionRating,
 			subjectsTaught: data.subjectsTaught.join(",").split(","),
 		};
-		console.log(newTeacherList);
 		const result = teacherListSchema.safeParse(newTeacherList);
 		console.log(result);
 		if (!result.success) {
@@ -140,7 +144,7 @@ export function TeacherListForm() {
 					render={({ field }) => (
 						<FormItem>
 							<FormControl>
-								<Dropzone>
+								<Dropzone onDrop={onImage}>
 									{({ getRootProps, getInputProps }) => (
 										<section>
 											<div {...getRootProps()}>

@@ -9,14 +9,14 @@ cloudinary.config({
 	api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// interface CloudinaryResource {
-// 	context?: {
-// 		alt?: string;
-// 		caption?: string;
-// 	};
-// 	public_id: string;
-// 	secure_url: string;
-// }
+interface CloudinaryResource {
+	context?: {
+		alt?: string;
+		caption?: string;
+	};
+	public_id: string;
+	secure_url: string;
+}
 
 export const addTeacherList = async (data: TeacherList) => {
 	const { resources: sneakers } = await cloudinary.api.resources_by_tag(
@@ -32,25 +32,25 @@ export const addTeacherList = async (data: TeacherList) => {
 		const subjectsTaught = result.data.subjectsTaught;
 
 		const arrayBuffer = await image.arrayBuffer();
-		// const buffer = new Uint8Array(arrayBuffer);
+		const buffer = new Uint8Array(arrayBuffer);
 
-		// const url = await new Promise((resolve, reject) => {
-		// 	cloudinary.uploader
-		// 		.upload_stream(
-		// 			{
-		// 				tags: ["nextjs-server-actions-upload-sneakers"],
-		// 			},
-		// 			(error, result) => {
-		// 				if (error) {
-		// 					reject(error);
-		// 					return;
-		// 				}
-		// 				resolve(result);
-		// 			},
-		// 		)
-		// 		.end(buffer);
-		// });
-		// console.log(url);
+		const url = await new Promise((resolve, reject) => {
+			cloudinary.uploader
+				.upload_stream(
+					{
+						tags: ["nextjs-server-actions-upload-sneakers"],
+					},
+					(error, result) => {
+						if (error) {
+							reject(error);
+							return;
+						}
+						resolve(result);
+					},
+				)
+				.end(buffer);
+		});
+		console.log(url);
 		await prisma.teacherActivity.create({
 			data: {
 				name,

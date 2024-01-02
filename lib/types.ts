@@ -21,7 +21,7 @@ export const teacherListSchema = z.object({
 	name: z.string().min(5, {
 		message: "Name must be at least 5 characters.",
 	}),
-	image: z.string(),
+	image: z.array(z.unknown()).optional(),
 	activityScore: z.number().min(1, {
 		message: "Average score improvement must be at least 1.",
 	}),
