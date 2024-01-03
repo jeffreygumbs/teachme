@@ -46,7 +46,7 @@ async function teachersList() {
 					</SheetContent>
 				</Sheet>
 			</div>
-			<Table className="mt-8">
+			<Table className="mt-8 bg-slate-50  rounded-lg shadow-md">
 				<TableCaption>A list of your Teachers</TableCaption>
 				<TableHeader>
 					<TableRow>
@@ -58,9 +58,12 @@ async function teachersList() {
 				</TableHeader>
 				<TableBody>
 					{teachers.map((teacher) => (
-						<TableRow className="" key={teacher.teacher_id}>
+						<TableRow
+							className="hover:text-slate-100 hover:bg-sky-600"
+							key={teacher.teacher_id}
+						>
 							<TableCell className="font-medium">
-								<div className="sm:flex items-center w-10 gap-4">
+								<div className="sm:flex items-center w-10 gap-4 ">
 									<Image
 										src={teacher.image}
 										width={100}

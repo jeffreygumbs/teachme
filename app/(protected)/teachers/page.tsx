@@ -53,11 +53,11 @@ const cardInfo = [
 
 async function teachers() {
 	return (
-		<div className="mt-8 mx-8 sm:mx-32">
+		<div className="mt-8 mx-8 sm:mx-32 ">
 			<h1 className="flex justify-center sm:justify-start my-4 text-xl font-semibold">
 				Teacher Dashboard
 			</h1>
-			<div className="flex flex-col sm:flex-row sm: flex-wrap mt-8 mb-8 gap-8 sm:gap-4 justify-center">
+			<div className="flex flex-col sm:flex-row sm: flex-wrap mt-8 mb-8 gap-8 sm:gap-4 justify-center bg-slate-500 p-10 rounded-lg">
 				{cardInfo.map((card) => (
 					<Card className="w-62">
 						<CardHeader>

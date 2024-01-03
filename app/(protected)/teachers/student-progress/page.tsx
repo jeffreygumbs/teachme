@@ -45,7 +45,7 @@ async function teachersList() {
 					</SheetContent>
 				</Sheet>
 			</div>
-			<Table className="mt-8 ">
+			<Table className="mt-8 bg-slate-50 rounded-lg shadow-md">
 				<TableCaption>A list of your Student Progress</TableCaption>
 				<TableHeader>
 					<TableRow>
@@ -59,7 +59,10 @@ async function teachersList() {
 				</TableHeader>
 				<TableBody>
 					{students.map((student) => (
-						<TableRow className="" key={student.class_id}>
+						<TableRow
+							className="hover:text-slate-100 hover:bg-sky-600"
+							key={student.class_id}
+						>
 							<TableCell>{student.subject}</TableCell>
 							<TableCell className="text-center">
 								{student.homework_completion_rate}
