@@ -32,7 +32,7 @@ async function teachersList() {
 				</h1>
 				<Sheet>
 					<SheetTrigger>
-						<Button>Add Student Progress</Button>
+						<Button className="rounded-full">Add Student Progress</Button>
 					</SheetTrigger>
 					<SheetContent>
 						<SheetHeader>

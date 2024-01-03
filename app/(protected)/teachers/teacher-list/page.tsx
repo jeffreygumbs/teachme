@@ -33,7 +33,7 @@ async function teachersList() {
 				</h1>
 				<Sheet>
 					<SheetTrigger>
-						<Button>Add Teacher</Button>
+						<Button className="rounded-full">Add Teacher</Button>
 					</SheetTrigger>
 					<SheetContent>
 						<SheetHeader>
@@ -76,8 +76,10 @@ async function teachersList() {
 							</TableCell>
 
 							<TableCell>{teacher.subjects_taught.join(", ")}</TableCell>
-							<TableCell>{teacher.student_interaction_rating}</TableCell>
-							<TableCell className="text-right">
+							<TableCell className="pl-14">
+								{teacher.student_interaction_rating}
+							</TableCell>
+							<TableCell className="text-right pr-14">
 								{teacher.activity_score}
 							</TableCell>
 						</TableRow>

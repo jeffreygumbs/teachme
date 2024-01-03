@@ -17,15 +17,31 @@ export const studentProgressSchema = z.object({
 
 export type StudentProgress = z.infer<typeof studentProgressSchema>;
 
+const imageSchema = z.object({
+	public_id: z.string().min(2, {
+		message: "Public ID must be at least 2 characters.",
+	}),
+	version: z.string().min(2, {
+		message: "Version must be at least 2 characters.",
+	}),
+	signature: z.string().min(2, {
+		message: "Signature must be at least 2 characters.",
+	}),
+	secure_url: z.string().min(2, {
+		message: "Secure URL must be at least 2 characters.",
+	}),
+});
+
 export const teacherListSchema = z.object({
 	name: z.string().min(5, {
 		message: "Name must be at least 5 characters.",
 	}),
-	image: z.array(z.unknown()).optional(),
-	activityScore: z.number().min(1, {
-		message: "Average score improvement must be at least 1.",
-	}),
+	// image: z.array(imageSchema).optional(),
+	// signature: z.any().optional(),
 	studentInteractionRating: z.number().min(1, {
+		message: "Attendance rate must be at least 1.",
+	}),
+	activityScore: z.number().min(1, {
 		message: "Attendance rate must be at least 1.",
 	}),
 	subjectsTaught: z.array(

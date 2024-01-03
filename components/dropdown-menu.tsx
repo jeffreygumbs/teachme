@@ -45,7 +45,7 @@ const components: { title: string; href: string; description: string }[] = [
 const DropdownMenu = () => {
 	return (
 		<>
-			<NavigationMenu>
+			<NavigationMenu className="z-20">
 				<NavigationMenuList>
 					<NavigationMenuItem>
 						<NavigationMenuTrigger>Teachers</NavigationMenuTrigger>

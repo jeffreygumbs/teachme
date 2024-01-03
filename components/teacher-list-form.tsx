@@ -16,11 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import TeacherListFormButton from "./form-button";
 import { useToast } from "@/components/ui/use-toast";
-import Dropzone from "react-dropzone";
-import { useState } from "react";
+// import { useDropzone } from "react-dropzone";
 
 export function TeacherListForm() {
-	const [image, setImage] = useState();
 	const { toast } = useToast();
 
 	const form = useForm<TeacherList>({
@@ -33,25 +31,22 @@ export function TeacherListForm() {
 		},
 	});
 
-	const onImage = (data) => {
-		setImage(data);
-	};
-
 	const clientAction: SubmitHandler<TeacherList> = async (data) => {
 		const newTeacherList = {
 			name: data.name,
-			image: image,
+			// image: image,
 			activityScore: data.activityScore,
 			studentInteractionRating: data.studentInteractionRating,
 			subjectsTaught: data.subjectsTaught.join(",").split(","),
 		};
+
 		const result = teacherListSchema.safeParse(newTeacherList);
-		console.log(result);
 		if (!result.success) {
 			return toast({
 				description: result.error.message,
 			});
 		}
+
 		console.log(result.data);
 		await addTeacherList(result.data);
 	};
@@ -92,7 +87,7 @@ export function TeacherListForm() {
 								/>
 							</FormControl>
 							<FormDescription>
-								This is your public display name.
+								This is your public activity score.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -112,7 +107,7 @@ export function TeacherListForm() {
 								/>
 							</FormControl>
 							<FormDescription>
-								This is your public display name.
+								This is your public student interaction rating.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
@@ -132,39 +127,49 @@ export function TeacherListForm() {
 								/>
 							</FormControl>
 							<FormDescription>
-								This is your public display name.
+								This is your public subjects taught.
 							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
-				<FormField
+				{/* <FormField
 					control={form.control}
 					name="image"
-					render={({ field }) => (
+					render={() => (
 						<FormItem>
 							<FormControl>
-								<Dropzone onDrop={onImage}>
-									{({ getRootProps, getInputProps }) => (
-										<section>
-											<div {...getRootProps()}>
+								<div className="bg-white h-500 px-5 py-4 rounded-lg drop-shadow-2xl row-span-2">
+									<div className="bg-[#919EAB] py-10 px-15 flex flex-col sm:flex-row  px-7  rounded-md">
+										<div {...getRootProps()}>
+											<div className="flex items-center justify-center w-full">
 												<input {...getInputProps()} />
-												<p>
-													Drag 'n' drop some files here, or click to select
-													files
-												</p>
+												{isDragActive ? (
+													<>
+														<div className="flex flex-col ml-5">
+															<p className="text-lg font-bold">
+																Drop the files here ...
+															</p>
+														</div>
+													</>
+												) : (
+													<>
+														<div className="flex flex-col ml-5">
+															<p>
+																Drop a file here or browse thorough your machine
+															</p>
+														</div>
+													</>
+												)}
 											</div>
-										</section>
-									)}
-								</Dropzone>
+										</div>
+									</div>
+								</div>
 							</FormControl>
-							<FormDescription>
-								This is your public display name.
-							</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
-				/>
+				/> */}
 
 				<TeacherListFormButton />
 			</form>
