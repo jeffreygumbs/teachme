@@ -1,14 +1,14 @@
+import crypto from "node:crypto";
 import { v4 as uuidv4 } from "uuid";
-import crypto from "crypto";
-import { getVerificationTokenByEmail } from "./verificiation-token";
 import { getPasswordResetTokenEmail } from "./password-rest";
-import { getTwoFactorTokenByEmail } from "./two-factor-token";
 import prisma from "./prismadb";
+import { getTwoFactorTokenByEmail } from "./two-factor-token";
+import { getVerificationTokenByEmail } from "./verificiation-token";
 
 export const generateTwoFactorToken = async (username: string) => {
 	const token = crypto.randomInt(100_000, 1_000_000).toString();
 	//TODO review token expiration time
-	const expires = new Date(new Date().getTime() + 3600 * 1000);
+	const expires = new Date(Date.now() + 3600 * 1000);
 	const existingToken = await getTwoFactorTokenByEmail(username);
 
 	if (existingToken) {
@@ -30,7 +30,7 @@ export const generateTwoFactorToken = async (username: string) => {
 
 export const generatePasswordResetToken = async (username: string) => {
 	const token = uuidv4();
-	const expires = new Date(new Date().getTime() + 3600 * 1000);
+	const expires = new Date(Date.now() + 3600 * 1000);
 
 	const existingToken = await getPasswordResetTokenEmail(username);
 
@@ -52,7 +52,7 @@ export const generatePasswordResetToken = async (username: string) => {
 
 export const generateVerificationToken = async (username: string) => {
 	const token = uuidv4();
-	const expires = new Date(new Date().getTime() + 3600 * 1000);
+	const expires = new Date(Date.now() + 3600 * 1000);
 
 	const existingToken = await getVerificationTokenByEmail(username);
 	if (existingToken) {

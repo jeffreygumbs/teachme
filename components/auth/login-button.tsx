@@ -11,7 +11,6 @@ interface LoginButtonProps {
 export const LoginButton = ({
 	children,
 	mode = "redirect",
-	asChild,
 }: LoginButtonProps) => {
 	const router = useRouter();
 
@@ -29,7 +28,14 @@ export const LoginButton = ({
 	}
 
 	return (
-		<span onClick={onClick} onKeyDown={onKeyPress} className="cursor-pointer">
+		// biome-ignore lint/a11y/useSemanticElements: children render the interactive element
+		<span
+			role="button"
+			tabIndex={0}
+			onClick={onClick}
+			onKeyDown={onKeyPress}
+			className="cursor-pointer"
+		>
 			{children}
 		</span>
 	);

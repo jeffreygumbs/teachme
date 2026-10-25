@@ -1,17 +1,17 @@
 "use server";
-import { Register, registerSchema } from "../lib/types";
 import bcrypt from "bcryptjs";
-import prisma from "../lib/prismadb";
-import { getUserByEmail } from "@/lib/user";
-import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
+import { generateVerificationToken } from "@/lib/tokens";
+import { getUserByEmail } from "@/lib/user";
+import prisma from "../lib/prismadb";
+import { type Register, registerSchema } from "../lib/types";
 
 export const register = async (value: Register) => {
 	const validatedFields = registerSchema.safeParse(value);
 	if (!validatedFields.success) {
 		return { error: "Invalid Registration credentials" };
 	}
-	const { name, username, password, confirmPassword } = validatedFields.data;
+	const { name, username, password } = validatedFields.data;
 
 	const hashedPassword = await bcrypt.hash(password, 10);
 

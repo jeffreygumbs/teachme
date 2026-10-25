@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { teacherListSchema, TeacherList } from "@/lib/types";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { addTeacherList } from "@/actions/teacher-list-action";
 import {
 	Form,
@@ -14,9 +13,9 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import TeacherListFormButton from "./form-button";
 import { useToast } from "@/components/ui/use-toast";
-import Dropzone from "react-dropzone";
+import { type TeacherList, teacherListSchema } from "@/lib/types";
+import TeacherListFormButton from "./form-button";
 // import { useState } from "react";
 
 export function TeacherListForm() {

@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { studentProgressSchema, StudentProgress } from "@/lib/types";
+import { type SubmitHandler, useForm } from "react-hook-form";
 import { addStudentProgress } from "@/actions/student-progress-action";
 import {
 	Form,
@@ -14,8 +13,9 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import StudentFormButton from "./form-button";
 import { useToast } from "@/components/ui/use-toast";
+import { type StudentProgress, studentProgressSchema } from "@/lib/types";
+import StudentFormButton from "./form-button";
 
 export function StudentProgressForm() {
 	const { toast } = useToast();

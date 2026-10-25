@@ -6,7 +6,9 @@ import { getVerificationTokenByToken } from "@/lib/verificiation-token";
 export const newVerification = async (token: string) => {
 	const existingToken = await getVerificationTokenByToken(token);
 	if (!existingToken) {
-		return { error: "Token does not exist" };
+		return {
+			error: "This link is invalid or has already been used. If your email is verified, you can log in.",
+		};
 	}
 	const hasExpired = new Date(existingToken.expires) < new Date();
 	if (hasExpired) {

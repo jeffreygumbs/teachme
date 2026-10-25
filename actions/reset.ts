@@ -1,8 +1,8 @@
 "use server";
-import { Reset, resetSchema } from "@/lib/types";
-import { getUserByEmail } from "@/lib/user";
 import { sendPasswordRestEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/lib/tokens";
+import { type Reset, resetSchema } from "@/lib/types";
+import { getUserByEmail } from "@/lib/user";
 
 export const reset = async (value: Reset) => {
 	const validatedFields = resetSchema.safeParse(value);

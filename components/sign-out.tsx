@@ -1,6 +1,7 @@
-import React from "react";
-import { Button } from "./ui/button";
+import { LogOut } from "lucide-react";
+import type React from "react";
 import { auth, signOut } from "@/auth";
+import { Button } from "./ui/button";
 
 const SignOutButton = async ({ children }: { children: React.ReactNode }) => {
 	const session = await auth();
@@ -12,7 +13,8 @@ const SignOutButton = async ({ children }: { children: React.ReactNode }) => {
 				await signOut();
 			}}
 		>
-			<Button type="submit" variant="secondary">
+			<Button type="submit" variant="ghost" size="sm" className="gap-1.5">
+				<LogOut className="h-4 w-4" />
 				{children}
 			</Button>
 		</form>

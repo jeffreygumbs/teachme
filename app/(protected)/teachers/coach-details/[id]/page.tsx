@@ -1,19 +1,22 @@
-import React from "react";
-import prisma from "@/lib/prismadb";
+import { MessageSquare } from "lucide-react";
 import Image from "next/image";
+import { PageHeader } from "@/components/page-header";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import prisma from "@/lib/prismadb";
 
 async function coachDetailsUser({
-	params: { id },
-}: { params: { id: string } }) {
-	const coachID = parseInt(id);
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) {
+	const { id } = await params;
+	const coachID = parseInt(id, 10);
 
 	const coachTeacherInts = await prisma.coachTeacherInteraction.findMany({
 		where: { coach_id: coachID },
@@ -23,64 +26,56 @@ async function coachDetailsUser({
 		},
 	});
 
+	const coach = coachTeacherInts[0]?.coach;
+
 	return (
-		<div className="mt-8 sm:mx-32">
-			<h1 className="flex justify-center sm:justify-start text-xl font-bold">
-				Coach Teacher Interactions
-			</h1>
-			<div className="mt-8 mx-6 flex  flex-col sm:flex-row gap-4">
-				<div className="flex flex-col gap-3 text-slate-100 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-500 to-sky-600  items-center my-4 sm:mr-6 w-64 justify-center sm:w-96 h-64 bg-slate-100 rounded-lg shadow-md">
-					<Image
-						src={coachTeacherInts[0].coach.image}
-						alt={coachTeacherInts[0].coach.name}
-						width={100}
-						height={100}
-						className="rounded-full shadow-md h-32 w-32 border-slate-100 border-6xl-solid border"
-					/>
-					<div className="flex flex-col justify-center">
-						<h2 className="font-semibold">
-							Name: {coachTeacherInts[0].coach.name}
-						</h2>
-						<h3 className="text-left">Title: Coach</h3>
-					</div>
-				</div>
-				<div className="flex flex-col sm:flex-row gap-10 sm:gap-4  flex-wrap mt-4 ">
-					{coachTeacherInts === null
-						? null
-						: coachTeacherInts.map((coachTeacherInt) => (
-								<div className=" sm:w-1/2 flex items-center">
-									<Card
-										className="flex sm:mr-4 justify-between pr-6 w-full hover:bg-accent shadow-md"
-										key={coachTeacherInt.teacher.name}
-									>
-										<div className="flex flex-col justify-center">
-											<CardHeader>
-												<CardTitle>
-													Teacher: {coachTeacherInt.teacher.name}
-												</CardTitle>
-												<CardDescription>
-													Coach: {coachTeacherInt.coach.name}
-												</CardDescription>
-											</CardHeader>
-											<CardContent>
-												<p>Meeting Notes: {coachTeacherInt.meeting_notes}</p>
-											</CardContent>
-											{/* <CardFooter></CardFooter> */}
-										</div>
-										<div className="flex my-4 gap-4 h-68 w-68">
-											<Image
-												src={coachTeacherInt.teacher.image}
-												alt={coachTeacherInt.teacher.name}
-												width={160}
-												height={30}
-												className="rounded-md"
-											/>
-										</div>
-									</Card>
+		<div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+			<PageHeader
+				title="Coach Teacher Interactions"
+				description={
+					coach
+						? `Recent meetings between ${coach.name} and teaching staff.`
+						: "Recent meetings between coaches and teaching staff."
+				}
+			/>
+			{coach ? (
+				<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					{coachTeacherInts.map((coachTeacherInt) => (
+						<Card
+							key={coachTeacherInt.id}
+							className="transition-all hover:-translate-y-0.5 hover:shadow-md"
+						>
+							<CardHeader className="flex-row items-center gap-3 space-y-0">
+								<Image
+									src={coachTeacherInt.teacher.image}
+									alt={coachTeacherInt.teacher.name}
+									width={48}
+									height={48}
+									className="h-12 w-12 rounded-full border object-cover"
+								/>
+								<div>
+									<CardTitle className="text-base">
+										{coachTeacherInt.teacher.name}
+									</CardTitle>
+									<CardDescription>
+										Coach: {coachTeacherInt.coach.name}
+									</CardDescription>
 								</div>
-						  ))}
+							</CardHeader>
+							<CardContent>
+								<div className="flex items-start gap-2 rounded-lg bg-muted/60 p-3 text-sm text-muted-foreground">
+									<MessageSquare className="mt-0.5 h-4 w-4 shrink-0" />
+									<p>{coachTeacherInt.meeting_notes}</p>
+								</div>
+							</CardContent>
+						</Card>
+					))}
 				</div>
-			</div>
+			) : (
+				<div className="mt-8 rounded-xl border bg-card p-12 text-center text-muted-foreground shadow-sm">
+					No interactions found for this coach.
+				</div>
+			)}
 		</div>
 	);
 }

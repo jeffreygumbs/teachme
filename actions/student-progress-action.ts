@@ -1,7 +1,7 @@
 "use server";
-import prisma from "@/lib/prismadb";
-import { studentProgressSchema, StudentProgress } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prismadb";
+import { type StudentProgress, studentProgressSchema } from "@/lib/types";
 
 export const addStudentProgress = async (data: StudentProgress) => {
 	const result = studentProgressSchema.safeParse(data);

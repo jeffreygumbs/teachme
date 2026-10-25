@@ -1,8 +1,9 @@
+"use server";
+import bcrypt from "bcryptjs";
 import { getPasswordResetToken } from "@/lib/password-rest";
 import prisma from "@/lib/prismadb";
-import { NewPassword, newPasswordSchema } from "@/lib/types";
+import { type NewPassword, newPasswordSchema } from "@/lib/types";
 import { getUserByEmail } from "@/lib/user";
-import bcrypt from "bcryptjs";
 
 export const newPassword = async (
 	values: NewPassword,

@@ -1,13 +1,15 @@
-import React from "react";
+import type React from "react";
 import Dashboardnav from "@/components/dashboard-nav";
 
 export default function DefaultLayout({
 	children,
-}: { children: React.ReactNode }) {
+}: {
+	children: React.ReactNode;
+}) {
 	return (
-		<div className="bg-gray-200 h-full pt-8">
+		<div className="flex min-h-full flex-col bg-muted/40">
 			<Dashboardnav />
-			<main>{children}</main>
+			<main className="flex-1">{children}</main>
 		</div>
 	);
 }

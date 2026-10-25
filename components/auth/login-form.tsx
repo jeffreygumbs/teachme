@@ -1,9 +1,11 @@
 "use client";
-import { CardWrapper } from "@/components/auth/card-wrapper";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Login, loginSchema } from "@/lib/types";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { login } from "@/actions/login";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 import {
 	Form,
 	FormControl,
@@ -12,13 +14,11 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { type Login, loginSchema } from "@/lib/types";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { login } from "@/actions/login";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 export const LoginForm = () => {
 	const searchParams = useSearchParams();

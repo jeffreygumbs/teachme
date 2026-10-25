@@ -1,9 +1,9 @@
 "use client";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
-import { Button } from "../ui/button";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { DEFAULT_LOGIN_REDIRECT_URL } from "@/routes";
+import { Button } from "../ui/button";
 
 export const Social = () => {
 	const onClick = (provider: "google" | "github") => {
@@ -20,6 +20,7 @@ export const Social = () => {
 				onClick={() => onClick("google")}
 			>
 				<FcGoogle className="h-5 w-5" />
+				Google
 			</Button>
 			<Button
 				size="lg"
@@ -28,6 +29,7 @@ export const Social = () => {
 				onClick={() => onClick("github")}
 			>
 				<FaGithub className="h-5 w-5" />
+				GitHub
 			</Button>
 		</div>
 	);

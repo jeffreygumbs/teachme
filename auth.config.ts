@@ -1,12 +1,12 @@
+import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { loginSchema } from "./lib/types";
 import { getUserByEmail } from "./lib/user";
-import bcrypt from "bcryptjs";
 
-export default ({
+export default {
 	providers: [
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID,
@@ -24,7 +24,7 @@ export default ({
 
 					const user = await getUserByEmail(username);
 
-					if (!user || !user.password) return null;
+					if (!user?.password) return null;
 
 					const passwordsMatch = await bcrypt.compare(password, user.password);
 
@@ -34,4 +34,4 @@ export default ({
 			},
 		}),
 	],
-} satisfies NextAuthConfig);
+} satisfies NextAuthConfig;

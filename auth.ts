@@ -1,10 +1,10 @@
-import NextAuth, { type DefaultSession } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { UserRole } from "@prisma/client";
-import prisma from "./lib/prismadb";
+import NextAuth, { type DefaultSession } from "next-auth";
+import type { UserRole } from "@/lib/generated/prisma/enums";
 import authConfig from "./auth.config";
-import { getUserById } from "./lib/user";
+import prisma from "./lib/prismadb";
 import { getTwoFactorConfirmationByUserId } from "./lib/two-factor-confirmation";
+import { getUserById } from "./lib/user";
 
 type ExtendedUser = DefaultSession["user"] & {
 	role: UserRole;
@@ -37,6 +37,7 @@ export const {
 	callbacks: {
 		async signIn({ user, account }) {
 			if (account?.provider !== "credentials") return true;
+			if (!user.id) return false;
 			const existingUser = await getUserById(user.id);
 			// Prevent sign in without email verification
 			if (!existingUser?.emailVerified) return false;

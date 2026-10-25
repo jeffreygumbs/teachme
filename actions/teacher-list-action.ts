@@ -1,7 +1,7 @@
 "use server";
-import prisma from "@/lib/prismadb";
-import { teacherListSchema, TeacherList } from "@/lib/types";
 import { revalidatePath } from "next/cache";
+import prisma from "@/lib/prismadb";
+import { type TeacherList, teacherListSchema } from "@/lib/types";
 // import { v2 as cloudinary } from "cloudinary";
 
 // cloudinary.config({
@@ -35,9 +35,12 @@ export const addTeacherList = async (data: TeacherList) => {
 			});
 			revalidatePath("/teachers/teacher-list");
 			return { success: true }; // Return a success response
-		} catch (error: any) {
+		} catch (error) {
 			console.error(error);
-			return { success: false, error: error.message }; // Return an error response
+			return {
+				success: false,
+				error: error instanceof Error ? error.message : "Unknown error",
+			}; // Return an error response
 		}
 	} else {
 		return { success: false, error: "Invalid data" }; // Handle validation failure

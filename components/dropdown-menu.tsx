@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { cn } from "@/lib/utils";
 import {
 	NavigationMenu,
 	NavigationMenuContent,
@@ -8,8 +7,8 @@ import {
 	NavigationMenuLink,
 	NavigationMenuList,
 	NavigationMenuTrigger,
-	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const components: { title: string; href: string; description: string }[] = [
 	{
@@ -44,28 +43,28 @@ const components: { title: string; href: string; description: string }[] = [
 
 const DropdownMenu = () => {
 	return (
-		<>
-			<NavigationMenu className="z-20">
-				<NavigationMenuList>
-					<NavigationMenuItem>
-						<NavigationMenuTrigger>Teachers</NavigationMenuTrigger>
-						<NavigationMenuContent className="">
-							<ul className="grid w-[400px] gap-3 p-4 md:-w[500px] md:grid-cols-2 lg:w-[600px] ">
-								{components.map((component) => (
-									<ListItem
-										key={component.title}
-										title={component.title}
-										href={component.href}
-									>
-										{component.description}
-									</ListItem>
-								))}
-							</ul>
-						</NavigationMenuContent>
-					</NavigationMenuItem>
-				</NavigationMenuList>
-			</NavigationMenu>
-		</>
+		<NavigationMenu className="z-20">
+			<NavigationMenuList>
+				<NavigationMenuItem>
+					<NavigationMenuTrigger className="bg-transparent">
+						Teachers
+					</NavigationMenuTrigger>
+					<NavigationMenuContent className="">
+						<ul className="grid w-100 gap-3 p-4 md:w-125 md:grid-cols-2 lg:w-150 ">
+							{components.map((component) => (
+								<ListItem
+									key={component.title}
+									title={component.title}
+									href={component.href}
+								>
+									{component.description}
+								</ListItem>
+							))}
+						</ul>
+					</NavigationMenuContent>
+				</NavigationMenuItem>
+			</NavigationMenuList>
+		</NavigationMenu>
 	);
 };
 

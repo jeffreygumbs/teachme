@@ -1,56 +1,49 @@
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
-import prisma from "@/lib/prismadb";
+import { ArrowRight, BadgeCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { PageHeader } from "@/components/page-header";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import prisma from "@/lib/prismadb";
 
 async function coachDetails() {
 	const coachDetails = await prisma.coachDetail.findMany();
 	return (
-		<div className="flex flex-col justify-center mt-8 sm:mx-32 ">
-			<h1 className=" flex justify-center sm:justify-start text-xl font-semibold">
-				Coach Detail
-			</h1>
-			<div className="flex text-center flex-col sm:flex-row sm:flex-wrap mt-8 mx-4 gap-8 sm:gap-10 justify-center">
+		<div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+			<PageHeader
+				title="Coach Details"
+				description="Profiles of your dedicated coaching staff."
+			/>
+			<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{coachDetails.map((coachDetail) => (
-					<Card className="flex border-none flex-col-reverse w-auto shadow-none  h-68 bg-gray-200">
-						<div className="flex flex-col justify-center pt-14 border-slate-100 border-4 bg-sky-400 m-5  rounded-2xl text-slate-100">
-							<CardHeader>
-								<CardTitle>{coachDetail.name}</CardTitle>
-								<CardDescription>
-									<span className="font-semibold">Specialization:</span>{" "}
-									{coachDetail.specialization}
-								</CardDescription>
-							</CardHeader>
-							<CardContent className="max-w-80">
-								<p>years of experience: {coachDetail.years_of_experience}</p>
-							</CardContent>
-							<CardFooter>
-								<Button className="w-full bg-blue-800" asChild>
-									<Link
-										href={`/teachers/coach-details/${coachDetail.coach_id}`}
-									>
-										Go to profile
-									</Link>
-								</Button>
-							</CardFooter>
-						</div>
-						<div className="flex justify-center">
+					<Card
+						key={coachDetail.coach_id}
+						className="group overflow-hidden transition-all hover:-translate-y-0.5 hover:shadow-md"
+					>
+						<div className="h-20 bg-linear-to-r from-sky-500 to-blue-700" />
+						<CardContent className="-mt-10">
 							<Image
 								src={coachDetail.image}
 								alt={coachDetail.name}
-								width={150}
-								height={60}
-								className="mt-4 -m-24 z-10 h-32 w-32 rounded-full border-slate-100 border-solid border-4"
+								width={80}
+								height={80}
+								className="h-20 w-20 rounded-full border-4 border-card object-cover shadow-md"
 							/>
-						</div>
+							<h3 className="mt-3 font-semibold">{coachDetail.name}</h3>
+							<p className="text-sm text-muted-foreground">
+								{coachDetail.specialization}
+							</p>
+							<div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
+								<BadgeCheck className="h-3.5 w-3.5 text-primary" />
+								{coachDetail.years_of_experience} years of experience
+							</div>
+							<Button className="mt-4 w-full gap-1.5" variant="outline" asChild>
+								<Link href={`/teachers/coach-details/${coachDetail.coach_id}`}>
+									View profile
+									<ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+								</Link>
+							</Button>
+						</CardContent>
 					</Card>
 				))}
 			</div>

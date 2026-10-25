@@ -1,18 +1,18 @@
 "use server";
 
 import { AuthError } from "next-auth";
-import { Login, loginSchema } from "../lib/types";
 import { signIn } from "@/auth";
-import { DEFAULT_LOGIN_REDIRECT_URL } from "@/routes";
+import { sendTwoFactorEmail, sendVerificationEmail } from "@/lib/mail";
 import prisma from "@/lib/prismadb";
 import {
-	generateVerificationToken,
 	generateTwoFactorToken,
+	generateVerificationToken,
 } from "@/lib/tokens";
-import { getUserByEmail } from "@/lib/user";
-import { getTwoFactorTokenByEmail } from "@/lib/two-factor-token";
-import { sendVerificationEmail, sendTwoFactorEmail } from "@/lib/mail";
 import { getTwoFactorConfirmationByUserId } from "@/lib/two-factor-confirmation";
+import { getTwoFactorTokenByEmail } from "@/lib/two-factor-token";
+import { getUserByEmail } from "@/lib/user";
+import { DEFAULT_LOGIN_REDIRECT_URL } from "@/routes";
+import { type Login, loginSchema } from "../lib/types";
 
 export const login = async (value: Login) => {
 	const validatedFields = loginSchema.safeParse(value);
@@ -24,7 +24,7 @@ export const login = async (value: Login) => {
 
 	const existingUser = await getUserByEmail(username);
 
-	if (!existingUser || !existingUser.email || !existingUser.password) {
+	if (!existingUser?.email || !existingUser.password) {
 		return { error: "User does not exist!" };
 	}
 

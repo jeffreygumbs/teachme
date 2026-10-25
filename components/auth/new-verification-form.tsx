@@ -1,11 +1,11 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
-import { CardWrapper } from "./card-wrapper";
-import { PropagateLoader } from "react-spinners";
 import { useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
+import { PropagateLoader } from "react-spinners";
 import { newVerification } from "@/actions/new-verification";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { CardWrapper } from "./card-wrapper";
 
 export const NewVerificationForm = () => {
 	const [error, setError] = useState<string | undefined>();

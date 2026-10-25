@@ -1,14 +1,32 @@
-const { PrismaClient } = require("@prisma/client");
-const {
-	teacher_activities,
-	student_progress,
-	resource_management,
-	coach_details,
-	coach_teacher_interactions,
-	resource_allocation,
-} = require("../_data/dashboard_data.json");
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import dashboardData from "../_data/dashboard_data.json" with { type: "json" };
+import { PrismaClient } from "../lib/generated/prisma/client";
+import type {
+	CoachDetailUncheckedCreateInput,
+	CoachTeacherInteractionUncheckedCreateInput,
+	ResourceAllocationUncheckedCreateInput,
+	ResourceManagementUncheckedCreateInput,
+	StudentProgressUncheckedCreateInput,
+	TeacherActivityUncheckedCreateInput,
+} from "../lib/generated/prisma/models";
 
-const prisma = new PrismaClient();
+const teacher_activities =
+	dashboardData.teacher_activities as unknown as TeacherActivityUncheckedCreateInput[];
+const student_progress =
+	dashboardData.student_progress as unknown as StudentProgressUncheckedCreateInput[];
+const resource_management =
+	dashboardData.resource_management as unknown as ResourceManagementUncheckedCreateInput[];
+const coach_details =
+	dashboardData.coach_details as unknown as CoachDetailUncheckedCreateInput[];
+const coach_teacher_interactions =
+	dashboardData.coach_teacher_interactions as unknown as CoachTeacherInteractionUncheckedCreateInput[];
+const resource_allocation =
+	dashboardData.resource_allocation as unknown as ResourceAllocationUncheckedCreateInput[];
+
+const prisma = new PrismaClient({
+	adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
+});
 
 async function main() {
 	for (const item of teacher_activities) {
@@ -43,7 +61,7 @@ async function main() {
 		});
 	}
 	for (const item of resource_allocation) {
-		await prisma.ResourceAllocation.create({
+		await prisma.resourceAllocation.create({
 			data: {
 				...item,
 			},

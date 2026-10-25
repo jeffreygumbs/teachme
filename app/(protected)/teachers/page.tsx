@@ -1,78 +1,72 @@
-import { Button } from "@/components/ui/button";
+import {
+	ArrowUpRight,
+	FolderKanban,
+	GraduationCap,
+	TrendingUp,
+	Users,
+} from "lucide-react";
+import Link from "next/link";
+import { PageHeader } from "@/components/page-header";
 import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 
-const cardInfo = [
+const sections = [
 	{
 		title: "Teachers List",
-		description: "view of Teachers List",
-		content:
-			"This is a list of Teachers that you can add, edit, delete, and view.",
-		url: "/teachers/teacher-list",
-		footer: "Footer",
+		description: "Add, view, and manage your teaching staff.",
+		href: "/teachers/teacher-list",
+		icon: Users,
 	},
 	{
 		title: "Student Progress",
-		description: "view of Teachers List",
-		content:
-			"This is a list of Teachers that you can add, edit, delete, and view.",
-		url: "/teachers/student-progress",
-		footer: "Footer",
+		description: "Track homework, scores, and attendance rates.",
+		href: "/teachers/student-progress",
+		icon: TrendingUp,
 	},
 	{
 		title: "Resource Management",
-		description: "view of Resource Management",
-		content:
-			"This is a list of Teachers that you can add, edit, delete, and view.",
-		url: "/resources/resource-management",
-		footer: "Footer",
+		description: "See how resources are allocated across teachers.",
+		href: "/resources/resource-management",
+		icon: FolderKanban,
 	},
 	{
 		title: "Coach Details",
-		description: "view of Coach Details",
-		content:
-			"This is a list of Teachers that you can add, edit, delete, and view.",
-		url: "/teachers/coach-details",
-		footer: "Footer",
-	},
-	{
-		title: "Coach Teacher Interactions",
-		description: "view of Coach Details",
-		content:
-			"This is a list of Teachers that you can add, edit, delete, and view.",
-		footer: "Footer",
+		description: "Browse coaching staff profiles and expertise.",
+		href: "/teachers/coach-details",
+		icon: GraduationCap,
 	},
 ];
 
 async function teachers() {
 	return (
-		<div className="mt-8 mx-8 sm:mx-32 ">
-			<h1 className="flex justify-center sm:justify-start my-4 text-xl font-semibold">
-				Teacher Dashboard
-			</h1>
-			<div className="flex flex-col sm:flex-row sm: flex-wrap mt-8 mb-8 gap-8 sm:gap-4 justify-center bg-slate-500 p-10 rounded-lg">
-				{cardInfo.map((card) => (
-					<Card className="w-62">
-						<CardHeader>
-							<CardTitle>{card.title}</CardTitle>
-							<CardDescription>{card.description}</CardDescription>
-						</CardHeader>
-						<CardContent className="max-w-80">
-							<p>{card.content}</p>
-						</CardContent>
-						<CardFooter>
-							<Button asChild>
-								<Link href={`${card.url}`}>Go to</Link>
-							</Button>
-						</CardFooter>
-					</Card>
+		<div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+			<PageHeader
+				title="Teacher Dashboard"
+				description="Everything you need to manage your institution."
+			/>
+			<div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+				{sections.map((section) => (
+					<Link key={section.title} href={section.href} className="group">
+						<Card className="h-full transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
+							<CardHeader className="flex-row items-start justify-between space-y-0">
+								<div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+									<section.icon className="h-5 w-5" />
+								</div>
+								<ArrowUpRight className="h-5 w-5 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
+							</CardHeader>
+							<CardContent>
+								<CardTitle>{section.title}</CardTitle>
+								<CardDescription className="mt-1.5">
+									{section.description}
+								</CardDescription>
+							</CardContent>
+						</Card>
+					</Link>
 				))}
 			</div>
 		</div>

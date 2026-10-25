@@ -17,7 +17,7 @@ export const studentProgressSchema = z.object({
 
 export type StudentProgress = z.infer<typeof studentProgressSchema>;
 
-const imageSchema = z.object({
+const _imageSchema = z.object({
 	File: z.array(
 		z.object({
 			name: z.string(),
@@ -57,8 +57,8 @@ export const teacherListSchema = z.object({
 export type TeacherList = z.infer<typeof teacherListSchema>;
 
 export const loginSchema = z.object({
-	username: z.string().email({
-		message: "Email is required.",
+	username: z.email({
+		error: "Email is required.",
 	}),
 	password: z.string().min(1, {
 		message: "Password is required.",
@@ -69,8 +69,8 @@ export const loginSchema = z.object({
 export type Login = z.infer<typeof loginSchema>;
 
 export const resetSchema = z.object({
-	username: z.string().email({
-		message: "Email is required.",
+	username: z.email({
+		error: "Email is required.",
 	}),
 });
 
@@ -89,8 +89,8 @@ export const registerSchema = z
 		name: z.string().min(1, {
 			message: "Name is required.",
 		}),
-		username: z.string().email({
-			message: "Email is required.",
+		username: z.email({
+			error: "Email is required.",
 		}),
 		password: z.string().min(8, {
 			message: "Password must be at least 8 characters.",

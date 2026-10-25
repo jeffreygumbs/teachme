@@ -1,91 +1,113 @@
-import prisma from "@/lib/prismadb";
+import { Plus } from "lucide-react";
+import Image from "next/image";
+import { PageHeader } from "@/components/page-header";
+import { TeacherListForm } from "@/components/teacher-list-form";
+import { Button } from "@/components/ui/button";
+import {
+	Sheet,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
 import {
 	Table,
 	TableBody,
-	TableCaption,
 	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { TeacherListForm } from "@/components/teacher-list-form";
-import {
-	Sheet,
-	SheetClose,
-	SheetContent,
-	SheetDescription,
-	SheetFooter,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
+import prisma from "@/lib/prismadb";
 
 async function teachersList() {
 	const teachers = await prisma.teacherActivity.findMany();
 
 	return (
-		<div className=" mt-8 mx-3 sm:mx-32">
-			<div className="flex flex-col sm:flex-row sm:justify-between mx-8 my-6 ">
-				<h1 className="flex sm:justify-start justify-center text-xl font-semibold mb-4">
-					Teacher List
-				</h1>
-				<Sheet>
-					<SheetTrigger>
-						<Button className="rounded-full">Add Teacher</Button>
-					</SheetTrigger>
-					<SheetContent>
-						<SheetHeader>
-							<SheetTitle>Create Teacher</SheetTitle>
-							<SheetDescription>
-								Make changes to your profile here. Click save when you're done.
-							</SheetDescription>
-						</SheetHeader>
-						<TeacherListForm />
-					</SheetContent>
-				</Sheet>
-			</div>
-			<Table className="mt-8 bg-slate-50  rounded-lg shadow-md">
-				<TableCaption>A list of your Teachers</TableCaption>
-				<TableHeader>
-					<TableRow>
-						<TableHead className="w-[150px]">Name</TableHead>
-						<TableHead>Subject</TableHead>
-						<TableHead>Student Interaction</TableHead>
-						<TableHead className="text-right">Activity Score</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{teachers.map((teacher) => (
-						<TableRow
-							className="hover:text-slate-100 hover:bg-sky-600"
-							key={teacher.teacher_id}
-						>
-							<TableCell className="font-medium">
-								<div className="sm:flex items-center w-10 gap-4 ">
-									<Image
-										src={teacher.image}
-										width={100}
-										height={100}
-										alt={teacher.name}
-										className="w-10 h-10 rounded-full my-4 mx-2"
-									/>
-									<h5>{teacher.name}</h5>
-								</div>
-							</TableCell>
-
-							<TableCell>{teacher.subjects_taught.join(", ")}</TableCell>
-							<TableCell className="pl-14">
-								{teacher.student_interaction_rating}
-							</TableCell>
-							<TableCell className="text-right pr-14">
-								{teacher.activity_score}
-							</TableCell>
+		<div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6">
+			<PageHeader
+				title="Teacher List"
+				description={`${teachers.length} teacher${teachers.length === 1 ? "" : "s"} on staff`}
+				action={
+					<Sheet>
+						<SheetTrigger asChild>
+							<Button className="gap-1.5">
+								<Plus className="h-4 w-4" />
+								Add Teacher
+							</Button>
+						</SheetTrigger>
+						<SheetContent>
+							<SheetHeader>
+								<SheetTitle>Create Teacher</SheetTitle>
+								<SheetDescription>
+									Make changes to your profile here. Click save when you're
+									done.
+								</SheetDescription>
+							</SheetHeader>
+							<TeacherListForm />
+						</SheetContent>
+					</Sheet>
+				}
+			/>
+			<div className="mt-8 rounded-xl border bg-card shadow-sm">
+				<Table>
+					<TableHeader>
+						<TableRow className="hover:bg-transparent">
+							<TableHead className="w-55">Name</TableHead>
+							<TableHead>Subjects</TableHead>
+							<TableHead className="text-center">Interaction</TableHead>
+							<TableHead className="text-right">Activity Score</TableHead>
 						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+					</TableHeader>
+					<TableBody>
+						{teachers.map((teacher) => (
+							<TableRow key={teacher.teacher_id}>
+								<TableCell>
+									<div className="flex items-center gap-3">
+										<Image
+											src={teacher.image}
+											width={40}
+											height={40}
+											alt={teacher.name}
+											className="h-10 w-10 rounded-full border object-cover"
+										/>
+										<span className="font-medium">{teacher.name}</span>
+									</div>
+								</TableCell>
+								<TableCell>
+									<div className="flex flex-wrap gap-1.5">
+										{teacher.subjects_taught.map((subject) => (
+											<span
+												key={subject}
+												className="inline-flex items-center rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-secondary-foreground"
+											>
+												{subject}
+											</span>
+										))}
+									</div>
+								</TableCell>
+								<TableCell className="text-center">
+									{teacher.student_interaction_rating}
+								</TableCell>
+								<TableCell className="text-right font-medium tabular-nums">
+									{teacher.activity_score}
+								</TableCell>
+							</TableRow>
+						))}
+						{teachers.length === 0 && (
+							<TableRow>
+								<TableCell
+									colSpan={4}
+									className="h-24 text-center text-muted-foreground"
+								>
+									No teachers yet. Add your first teacher to get started.
+								</TableCell>
+							</TableRow>
+						)}
+					</TableBody>
+				</Table>
+			</div>
 		</div>
 	);
 }
